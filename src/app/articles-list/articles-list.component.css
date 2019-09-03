@@ -1,0 +1,28 @@
+section {
+  padding: 50px;
+}
+
+.card {
+  max-width: 400px;
+}
+
+
+.content-p {
+    width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.btn{
+  max-width: 50%;
+}
+.btn-primary{
+  margin: 30px;
+}
+
+.card-meta{
+  padding: 5px;
+  font-size: 15px;
+  margin-right: 5px;
+}

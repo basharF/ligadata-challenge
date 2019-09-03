@@ -1,0 +1,61 @@
+<button routerLink="/articles/add" class="btn btn-primary">Add New Article</button>
+
+<!--Section-->
+<section class="pt-5 mt-3 pb-3">
+
+  <!--Grid row-->
+  <div class="row">
+
+    <!--Grid column-->
+    <div class="col-md-12">
+
+      <!--Card group-->
+      <div class="card-group row">
+
+        <ng-container  *ngFor="let article of allArticlesArray">
+          <!--Card-->
+          <div class="card card-personal mb-4 col">
+
+            <!--Card image-->
+            <div class="view">
+              <img class="card-img-top" [src]="article.image"
+                alt="Article Image">
+              <a href="#!">
+                <div class="mask rgba-white-slight"></div>
+              </a>
+            </div>
+            <!--Card image-->
+
+            <!--Card content-->
+            <div class="card-body">
+              <!--Title-->
+              <a>
+                <h4 class="card-title">{{ article.title }}</h4>
+              </a>
+              <!--Text-->
+              <p class="card-text content-p">{{ article.content}}</p>
+              <hr>
+              <p class="card-meta float-right">{{ article.date }}</p>
+              <button routerLink="/articles/{{ article.id }}" class="btn btn-info card-meta float-left">Read</button>
+              <button routerLink="/articles/edit/{{ article.id }}" class="btn btn-info card-meta float-left">Edit</button>
+              <button (click)="deleteArticle(article.id)" class="btn btn-danger card-meta float-left">Delete</button>
+            </div>
+            <!--Card content-->
+
+          </div>
+          <!--Card-->
+          <div *ngIf="(i+1)%3 ===0" class="w-100"></div>
+        </ng-container>
+
+
+      </div>
+      <!--Card group-->
+
+    </div>
+    <!--Grid column-->
+
+  </div>
+  <!--Grid row-->
+
+</section>
+<!--Section: Group of personal cards-->

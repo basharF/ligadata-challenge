@@ -1,0 +1,30 @@
+<div class="container">
+  <div class="login-container">
+    <div id="output"></div>
+    <div class="avatar"><img src="https://avatars1.githubusercontent.com/u/8631713?s=280&v=4" alt=""></div>
+    <div class="form-box">
+      <form #f="ngForm" class="form" (ngSubmit)="login()">
+        <div class="form-group">
+          <input 
+            #email="ngModel"
+            [(ngModel)]="user.email" 
+            class="form-control" 
+            name="user" type="text" 
+            placeholder="username"
+            autocomplete="off">
+
+          <input 
+            #password="ngModel"
+            [(ngModel)]="user.password" 
+            class="form-control" 
+            name="password"  
+            type="password" 
+            placeholder="password"
+            autocomplete="off">
+          <button (click)="login()" class="btn btn-info btn-block login">Login</button>
+          <p>Don't have an account? <a routerLink="/signup">Create one</a></p>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
