@@ -1,5 +1,5 @@
 <form #f="ngForm" (ngSubmit)="signup()">
-  <label class="lbl" [ngClass]="{'label-active' : inputsFocused[0]}">
+  <label class="lbl">
     <p class="label-txt">FIRST NAME</p>
     <input 
       #i1="ngModel"  
@@ -7,8 +7,6 @@
       name = "i1"
       type="text" 
       class="input" 
-      (focus)="focusFunction(i1)" 
-      (focusout)="focusOutFunction(i1)"
       [(ngModel)] = "user.firstName"
       autocomplete="off"
       required>
@@ -17,7 +15,7 @@
       <div class="line"></div>
     </div>
   </label>
-  <label class="lbl" [ngClass]="{'label-active' : inputsFocused[1]}">
+  <label class="lbl">
     <p class="label-txt">LAST NAME</p>
     <input 
       #i2="ngModel" 
@@ -25,8 +23,6 @@
       name = "i2"
       type="text" 
       class="input" 
-      (focus)="focusFunction(i2)" 
-      (focusout)="focusOutFunction(i2)"
       [(ngModel)] = "user.lastName"
       autocomplete="off"
       required>
@@ -36,7 +32,7 @@
       <div class="line"></div>
     </div>
   </label>
-  <label class="lbl" [ngClass]="{'label-active' : inputsFocused[2] }">
+  <label class="lbl">
     <p class="label-txt">EMAIL</p>
     <input 
       #i3="ngModel" 
@@ -44,8 +40,6 @@
       name = "i3"
       type="text" 
       class="input" 
-      (focus)="focusFunction(i3)" 
-      (focusout)="focusOutFunction(i3)"
       [(ngModel)] = "user.email"
       autocomplete="off"
       required>
@@ -54,7 +48,7 @@
       <div class="line"></div>
     </div>
   </label>
-  <label class="lbl" [ngClass]="{'label-active' : inputsFocused[3] }">
+  <label class="lbl">
     <p class="label-txt">PASSWORD</p>
     <input 
     #i4="ngModel" 
@@ -62,8 +56,6 @@
     name = "i4"
     type="password" 
     class="input" 
-    (focus)="focusFunction(i4)" 
-    (focusout)="focusOutFunction(i4)"
     [(ngModel)] = "user.password"
     autocomplete="off"
     required>
@@ -73,7 +65,7 @@
     </div>
   </label>
 
-  <label class="lbl" [ngClass]="{'label-active' : inputsFocused[4]}">
+  <label class="lbl">
     <p class="label-txt">CONFIRM PASSWORD</p>
     <input 
       #i5="ngModel" 
@@ -81,8 +73,6 @@
       name = "i5"
       type="password" 
       class="input" 
-      (focus)="focusFunction(i5)" 
-      (focusout)="focusOutFunction(i5)"
       [(ngModel)] = "confirmPassword"
       autocomplete="off"
       required>
