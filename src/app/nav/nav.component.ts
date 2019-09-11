@@ -1,5 +1,6 @@
 import { UserService } from './../services/user.service';
 import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-nav',
@@ -7,19 +8,27 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./nav.component.css']
 })
 export class NavComponent implements OnInit {
-  isLoggedIn: boolean = false;
-  currentUser : any = {};
+  isLoggedIn = false;
+  currentUser: any = {};
+  subscription: Subscription
 
   constructor(private userService: UserService) { }
 
   ngOnInit() {
-    this.isLoggedIn = this.userService.isLoggedIn();
-    if(this.isLoggedIn)
-      this.currentUser = this.userService.getCurrentUser();
+    this.subscription= this.userService.$LoggedIn.subscribe(isLoggedin => {
+      this.isLoggedIn = isLoggedin;
+      if(isLoggedin)
+        this.currentUser = this.userService.getCurrentUser();
+    }, err => {
+      console.log('ERROR OCCURED: ' + err);
+    });
   }
 
   logout() {
     this.userService.logout();
-    this.isLoggedIn = false;
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }

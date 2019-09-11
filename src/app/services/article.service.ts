@@ -1,3 +1,4 @@
+import { Subject, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 
@@ -5,35 +6,43 @@ import { Router } from '@angular/router';
   providedIn: 'root'
 })
 export class ArticleService {
-  articlesJson: any = JSON.parse(localStorage.getItem('articles')) || {};
-  articlesNumber: number = +localStorage.getItem('articlesNumber') || 0;
+  articlesJson: any;
+  $articlesJson: Subject<any>;
+  articlesNumber: number;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router) {
+    this.articlesJson = JSON.parse(localStorage.getItem('articles')) || {};
+    this.articlesNumber = +localStorage.getItem('articlesNumber') || 0;
+    this.$articlesJson = new BehaviorSubject<any>(this.articlesJson);
+   }
 
   addArticle(article: any) {
     article.id = this.articlesNumber;
-    this.articlesJson[this.articlesNumber] = article;
+    let index = 'article'+this.articlesNumber;
+    this.articlesJson[index] = article;
     this.articlesNumber += 1;
     this.resetDatabase();
   }
 
   delete(id) {
-    delete this.articlesJson[id];
+    let index = 'article'+id
+    delete this.articlesJson[index];
     this.resetDatabase();
-    location.reload();
   }
 
   edit(id, article) {
-    this.articlesJson[id] = article;
+    let index = 'article'+id;
+    article.id = +id;
+    this.articlesJson[index] = article;
     this.resetDatabase();
   }
 
-  resetDatabase()
-  {
+  resetDatabase() {
     localStorage.removeItem('articles');
     localStorage.setItem('articles', JSON.stringify(this.articlesJson));
     localStorage.removeItem('articlesNumber');
     localStorage.setItem('articlesNumber', String(this.articlesNumber));
+    this.$articlesJson.next(this.articlesJson);
     this.router.navigate(['/articles']);
   }
 
@@ -42,7 +51,8 @@ export class ArticleService {
   }
 
   getById(id) {
-    return this.articlesJson[id];
+    let index = 'article'+id;
+    return this.articlesJson[index];
   }
 
 

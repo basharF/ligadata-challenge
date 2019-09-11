@@ -1,11 +1,16 @@
 section {
-  padding: 50px;
+  padding: 20px;
 }
 
 .card {
   max-width: 400px;
+  height: auto;
 }
 
+.view img{
+  max-height: 300px;
+  object-fit: cover;
+}
 
 .content-p {
     width: 250px;

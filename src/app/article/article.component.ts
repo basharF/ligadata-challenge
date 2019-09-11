@@ -29,10 +29,9 @@ export class ArticleComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       let id = params.get('id');
       if (id)
-    this.articleService.edit(id, this.article);
-      else 
-    this.articleService.addArticle(this.article);
-
+        this.articleService.edit(id, this.article);
+      else
+        this.articleService.addArticle(this.article);
     });
 
   }

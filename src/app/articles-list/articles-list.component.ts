@@ -1,6 +1,6 @@
-import { UserService } from './../services/user.service';
 import { ArticleService } from './../services/article.service';
-import { Component, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-articles-list',
@@ -8,17 +8,21 @@ import { Component, OnInit, Output, EventEmitter } from '@angular/core';
   styleUrls: ['./articles-list.component.css']
 })
 export class ArticlesListComponent implements OnInit {
-  allArticles: any = {};
   allArticlesArray: any[] = [];
-  constructor(private articleService: ArticleService, private userService: UserService) { }
+  subscription: Subscription;
+  constructor(private articleService: ArticleService) { }
 
   ngOnInit() {
-    this.allArticles = this.articleService.getAll();
-    this.allArticlesArray  = Object.keys(this.allArticles).map(e=>this.allArticles[e]);
+    this.subscription = this.articleService.$articlesJson.subscribe(allArticles => {
+      this.allArticlesArray  = Object.keys(allArticles).map(e=>allArticles[e]);
+    });
   }
 
   deleteArticle(id) {
     this.articleService.delete(id);
   }
 
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
 }

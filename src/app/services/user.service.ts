@@ -2,17 +2,19 @@ import { User } from './../user';
 import { Injectable } from '@angular/core';
 import { UserLoginDto } from './dtos/user-login-dto';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
+import { Observable, of, Subject, BehaviorSubject } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
   usersJson: JSON = JSON.parse(localStorage.getItem('users')) || {};
-  LoggedIn: boolean;
+  $LoggedIn: Subject<boolean>;
   loggedinUser: any = {};
 
-  constructor(private router: Router) {  }
+  constructor(private router: Router) {
+     this.$LoggedIn = localStorage.getItem('loggedinUser')? new BehaviorSubject<boolean>(true): new BehaviorSubject<boolean>(false);
+   }
 
   signup(newUser: User) {
     // Check if user already exist
@@ -20,7 +22,7 @@ export class UserService {
     {
       if(user == newUser.email)
       {
-        alert("This email is already registerd!");
+        alert('This email is already registerd!');
         return;
       }
     }
@@ -28,18 +30,19 @@ export class UserService {
     this.usersJson[newUser.email] = newUser;
     localStorage.removeItem('users');
     localStorage.setItem('users', JSON.stringify(this.usersJson));
-    this.LoggedIn = true;
     this.setCurrentUser(newUser);
-    location.replace('/');
+    this.$LoggedIn.next(true);
+    this.router.navigate(['/articles']);
   }
 
   login(user: UserLoginDto) {
     for(let key of Object.keys(this.usersJson))
     {
       if (key == user.email && this.usersJson[key].password == user.password) {
-        this.LoggedIn = true;
+        // this.$LoggedIn = true;
         this.setCurrentUser(this.usersJson[key]);
-        location.replace('/');
+        this.$LoggedIn.next(true);
+        this.router.navigate(['/articles']);
         return;
       }
     }
@@ -48,7 +51,9 @@ export class UserService {
 
   logout() {
     localStorage.removeItem('loggedinUser');
-    this.LoggedIn = false;
+    // this.$LoggedIn = false;
+    this.$LoggedIn.next(false);
+
   }
 
   setCurrentUser(user) {
@@ -60,10 +65,9 @@ export class UserService {
     return JSON.parse(localStorage.getItem('loggedinUser'));
   }
 
-  isLoggedIn(): boolean {
-    if(localStorage.getItem('loggedinUser'))
-     return true;
-    
-    else return false;
-  }
+  // isLoggedIn(): Observable<boolean> {
+  //   return new Observable(observer => {
+  //     observer.next(this.$LoggedIn);
+  //   });
+  // }
 }
