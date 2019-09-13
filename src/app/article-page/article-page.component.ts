@@ -11,6 +11,12 @@ import { ActivatedRoute } from '@angular/router';
 export class ArticlePageComponent implements OnInit {
   ArticleId: number;
   article: any = {}
+  quillStyle ={
+    border: 0
+  };
+  config = {
+      toolbar: false
+  };
 
   constructor(private route: ActivatedRoute, private articleService: ArticleService) { }
 

@@ -1,12 +1,24 @@
 <div class="container">
   <div class="row">
-    <div class="col-md-6 float-left img">
+    <div class="col-md-4 float-left img">
       <img [src]="article.image" alt="image">
     </div>
 
-    <div class="col-md-6 float-right">
+    <!-- <div class="col-md-6 float-right">
       {{ article.content}}
-    </div>
+    </div> -->
 
+    <div class="form-group col-md-8 float-right">
+      <h3 class="control-label col-sm-2" for="Content">{{ article.title }}</h3>
+      <div class="col-sm-10">
+          <quill-editor 
+            ngModel [(ngModel)]="article.content"
+            name="content"
+            id="Content"
+            [styles]="quillStyle"
+            readOnly="true"
+            [modules]="config"></quill-editor>
+      </div>
+    </div>
   </div>
 </div>

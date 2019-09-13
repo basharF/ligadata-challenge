@@ -18,12 +18,11 @@
     <li *ngIf="!isLoggedIn" class="nav-item right">
       <a class="nav-link" routerLink="/login">Login</a>
     </li>
-    <li *ngIf="!isLoggedIn" class="nav-item right">
-      <a class="nav-link" routerLink="/signup">Signup</a>
-    </li>
     <li *ngIf="isLoggedIn" class="right nav-item">
       <a (click)="logout()" class="nav-link" routerLink="/login">Logout</a>
     </li>
+    <li *ngIf="!isLoggedIn" class="nav-item right">
+      <a class="nav-link" routerLink="/signup">Signup</a>
+    </li>
   </ul>
-
 </nav>

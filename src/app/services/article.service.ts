@@ -1,6 +1,7 @@
 import { Subject, BehaviorSubject } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { JsonPipe } from '@angular/common';
 
 @Injectable({
   providedIn: 'root'
@@ -12,13 +13,13 @@ export class ArticleService {
 
   constructor(private router: Router) {
     this.articlesJson = JSON.parse(localStorage.getItem('articles')) || {};
-    this.articlesNumber = +localStorage.getItem('articlesNumber') || 0;
+    this.articlesNumber = +localStorage.getItem('articlesNumber') || 1;
     this.$articlesJson = new BehaviorSubject<any>(this.articlesJson);
    }
 
   addArticle(article: any) {
     article.id = this.articlesNumber;
-    let index = 'article'+this.articlesNumber;
+    let index ='article'+this.articlesNumber
     this.articlesJson[index] = article;
     this.articlesNumber += 1;
     this.resetDatabase();
@@ -42,6 +43,8 @@ export class ArticleService {
     localStorage.setItem('articles', JSON.stringify(this.articlesJson));
     localStorage.removeItem('articlesNumber');
     localStorage.setItem('articlesNumber', String(this.articlesNumber));
+    this.articlesJson = JSON.parse(localStorage.getItem('articles'));
+    this.articlesNumber = +localStorage.getItem('articlesNumber');
     this.$articlesJson.next(this.articlesJson);
     this.router.navigate(['/articles']);
   }
@@ -54,6 +57,4 @@ export class ArticleService {
     let index = 'article'+id;
     return this.articlesJson[index];
   }
-
-
 }

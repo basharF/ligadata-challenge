@@ -1,3 +1,4 @@
+import { Subscription } from 'rxjs';
 import { ActivatedRoute } from '@angular/router';
 import { ArticleService } from './../services/article.service';
 import { Component, OnInit } from '@angular/core';
@@ -15,32 +16,35 @@ export class ArticleComponent implements OnInit {
     date: '',
     image: ''
   };
+  quillStyle = {
+    height: '250px'
+  };
+  subscription: Subscription;
   constructor(private articleService: ArticleService, private route: ActivatedRoute) { }
 
   ngOnInit() {
-    this.route.paramMap.subscribe(params => {
+    this.subscription = this.route.paramMap.subscribe(params => {
       let article = this.articleService.getById(+params.get('id'));
-      if(article)
+      if (article)
         this.article = article;
     });
   }
 
   submit() {
     this.route.paramMap.subscribe(params => {
-      let id = params.get('id');
-      if (id)
+      let id = +params.get('id');
+      if (this.articleService.getById(id))
         this.articleService.edit(id, this.article);
       else
         this.articleService.addArticle(this.article);
     });
-
   }
 
   onImageChange($event): void {
-    try{
-    return this.readThis($event.target);
+    try {
+      return this.readThis($event.target);
     }
-    catch(e){
+    catch (e) {
     }
   }
 
@@ -52,5 +56,9 @@ export class ArticleComponent implements OnInit {
       this.article.image = myReader.result;
     }
     myReader.readAsDataURL(file);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 }
